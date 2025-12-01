@@ -6,358 +6,166 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <style>
 :root{
-  --v1:#7F00FF;
-  --v2:#56CCF2;
-  --mint:#00F5A0;
-  --p1:#004e92;
-  --p2:#000428;
-  --cardBg: rgba(255,255,255,0.12);
-  --c1:#09203f;
-  --c2:#537895;
-  --bg1:#0f2027;
-  --bg2:#203a43;
-  --bg3:#2c5364;
-  --bubbleMe:#00F5A0;
-  --bubbleThem:#7F00FF;
+  --v1:#0f0f1f; 
+  --v2:#1f1f35;
+  --neon1:#7F00FF;
+  --neon2:#00F5A0;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
 }
 
 body{
-  background: linear-gradient(135deg,var(--v1),var(--v2));
-  font-family: "Inter", sans-serif;
-  color:white;
-  margin:0;
-  padding:0;
+    background: linear-gradient(135deg, #7F00FF, #56CCF2);
+    font-family: 'Inter', sans-serif;
+    color:white;
 }
 
-/* NAVBAR */
-.navbar{
-  background: linear-gradient(90deg,#7F00FF,#56CCF2);
-  backdrop-filter: blur(10px);
-  box-shadow: 0 5px 25px rgba(0,0,0,.4);
-}
-.navbar-brand{
-  font-weight:bold;
-  font-size:1.5rem;
+/* Login page specific styling */
+body.login-view {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background: radial-gradient(circle at top, var(--neon1), var(--v2));
 }
 
-/* PAGE CONTAINER */
-.page-container{
-  display:none;
-  padding-top:80px;
-  min-height:100vh;
-}
-.page-container.active{
-  display:block;
+body.login-view .navbar {
+    display: none;
 }
 
-/* HERO SECTION */
-.hero{
-  background: rgba(255,255,255,0.05);
-  padding: 40px;
-  border-radius: 15px;
-  box-shadow: 0 10px 35px rgba(0,0,0,0.15);
-}
-.btn-neon{
-  background: linear-gradient(90deg,var(--v2),var(--mint));
-  border: none;
-  padding: 12px 20px;
-  font-weight: 700;
-  color: #000;
-  border-radius: 12px;
-  transition: .2s;
-}
-.btn-neon:hover{
-  transform: scale(1.05);
+body.login-view .login-card {
+    display: block;
 }
 
-/* CARD STYLES */
-.card-glass{
-  background: rgba(255,255,255,0.08);
-  padding: 12px;
-  border-radius: 12px;
-  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-  transition: 0.2s;
-}
-.card-glass:hover{
-  transform: translateY(-5px);
-}
-.item-img{
-  height: 160px;
-  width: 100%;
-  object-fit: cover;
-  border-radius: 10px;
+body:not(.login-view) .login-card {
+    display: none;
 }
 
-/* PROFILE SECTION */
-.profile-header{
-  height: 170px;
-  background: linear-gradient(135deg, #7F00FF, #00F5A0);
-  border-radius: 20px;
-  position: relative;
-  box-shadow: 0 15px 45px rgba(0,0,0,0.35);
-}
-.avatar{
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  border: 5px solid white;
-  position: absolute;
-  bottom: -55px;
-  left: 40px;
-  object-fit: cover;
-  background:white;
-}
-.info-card{
-  margin-top: 80px;
-  background: var(--cardBg);
-  backdrop-filter: blur(12px);
-  border-radius: 18px;
-  padding: 25px;
-  box-shadow: 0 15px 50px rgba(0,0,0,0.3);
-}
-
-/* FORM STYLES */
-.form-card{
-  background: rgba(255,255,255,0.10);
-  backdrop-filter: blur(10px);
-  border-radius: 18px;
-  padding: 25px;
-  width: 90%;
-  max-width: 650px;
-  margin: auto;
-  box-shadow: 0 25px 60px rgba(0,0,0,0.25);
-  animation: fadeIn .5s ease;
-}
-input, textarea, select{
-  background: rgba(255,255,255,0.15) !important;
-  border: none !important;
-  color: white;
-  border-radius: 10px !important;
-}
-input::placeholder, textarea::placeholder{
-  color: rgba(255,255,255,0.7);
-}
-.btn-add{
-  background: linear-gradient(90deg,#7F00FF,#00F5A0);
-  color: black;
-  font-weight: 700;
-  border-radius: 12px;
-  border: none;
-  padding: 12px;
-  transition: 0.2s;
-}
-.btn-add:hover{
-  transform: scale(1.05);
-}
-
-/* LOGIN PAGE */
-.login-page{
-  background: radial-gradient(circle at top, var(--v1), var(--v2));
-  height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding-top:0 !important;
-}
+/* Floating Card */
 .login-card{
-  width: 380px;
-  padding: 28px;
-  padding-top: 35px;
-  border-radius: 18px;
-  background: rgba(255,255,255,0.08);
-  backdrop-filter: blur(15px);
-  box-shadow: 0 20px 50px rgba(0,0,0,0.4);
-  animation: fadeIn .6s ease;
-}
-
-/* CHAT SECTION */
-.chat-container{
-  width:100%;
-  height: calc(100vh - 110px);
-  display:flex;
-  flex-direction:column;
-  padding:20px;
-  background: linear-gradient(135deg,var(--bg1),var(--bg3));
-}
-.search-box{
-  background: rgba(255,255,255,0.15);
-  padding:15px;
-  border-radius:15px;
-  display:flex;
-  gap:10px;
-  box-shadow:0 10px 30px rgba(0,0,0,.3);
-}
-.search-box input{
-  flex:1;
-  background:transparent;
-  border:none;
-  outline:none;
-  color:white;
-  font-size:16px;
-}
-.search-btn{
-  background:linear-gradient(90deg,#7F00FF,#00F5A0);
-  border:none;
-  padding:10px 18px;
-  border-radius:12px;
-  font-weight:700;
-  color:black;
-  cursor:pointer;
-}
-.messages-area{
-  flex:1;
-  overflow-y:auto;
-  margin-top:15px;
-  padding:12px;
-}
-.msg{
-  max-width:65%;
-  padding:10px 15px;
-  border-radius:12px;
-  margin-bottom:12px;
-  font-size:15px;
-  line-height:1.3;
-  word-wrap:break-word;
-}
-.msg.me{
-  background:var(--bubbleMe);
-  color:black;
-  margin-left:auto;
-  border-bottom-right-radius:2px;
-}
-.msg.them{
-  background:rgba(255,255,255,0.18);
-  margin-right:auto;
-  border-bottom-left-radius:2px;
-}
-.send-box{
-  display:flex;
-  gap:10px;
-  margin-top:10px;
-}
-.send-box input{
-  flex:1;
-  background:rgba(255,255,255,0.15);
-  border:none;
-  padding:12px;
-  border-radius:12px;
-  color:white;
-}
-.send-btn{
-  background:linear-gradient(90deg,#00F5A0,#7F00FF);
-  border:none;
-  padding:12px 22px;
-  border-radius:12px;
-  color:black;
-  font-weight:700;
-  cursor:pointer;
-}
-
-/* REQUEST STYLES */
-.req-row{
-  background: rgba(255,255,255,0.13);
-  backdrop-filter: blur(10px);
-  border-radius: 16px;
-  padding: 18px;
-  margin-bottom: 18px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  box-shadow:0 10px 45px rgba(0,0,0,0.25);
-  transition:0.15s;
-}
-.req-row:hover{
-  transform: translateY(-4px);
-}
-.req-info{
-  max-width:70%;
-}
-.req-card{
-  background: rgba(255,255,255,0.15);
-  backdrop-filter: blur(10px);
-  border-radius: 18px;
-  padding: 20px;
-  margin-bottom: 20px;
-  box-shadow:0 10px 45px rgba(0,0,0,0.25);
-  transition:0.2s;
-}
-.req-card:hover{
-  transform: translateY(-3px);
-}
-.badge-status{
-  padding: 6px 12px;
-  font-size: 14px;
-  border-radius: 999px;
-  font-weight:600;
-}
-.badge-pending{ background: #ffc107; color:black; }
-.badge-accepted{ background: #00F5A0; color:black; }
-.badge-declined{ background: #ff4f4f; color:white; }
-
-/* BUTTON STYLES */
-.btn-accept{
-  background:#00F5A0;
-  color:black;
-  font-weight:700;
-  border:none;
-  padding:8px 14px;
-  border-radius:10px;
-  cursor:pointer;
-}
-.btn-decline{
-  background:#ff4f4f;
-  color:white;
-  font-weight:700;
-  border:none;
-  padding:8px 14px;
-  border-radius:10px;
-  cursor:pointer;
-}
-.btn-sw{
-  background:linear-gradient(90deg,#56CCF2,#00F5A0);
-  border:none;
-  color:#000;
-  font-weight:600;
-  border-radius:10px;
-  transition:0.2s;
-  cursor:pointer;
-  padding:8px;
-}
-.btn-sw:hover{
-  transform:scale(1.05);
-}
-
-.footer{
-  margin-top: 30px;
-  text-align: center;
-  color: rgba(255,255,255,0.8);
+    width: 380px;
+    padding: 28px;
+    padding-top: 35px;
+    border-radius: 18px;
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(15px);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+    animation: fadeIn .6s ease;
+    text-align: center;
 }
 
 @keyframes fadeIn{
-  from{opacity:0; transform:translateY(20px);}
-  to{opacity:1; transform:translateY(0);}
+    from{opacity:0; transform: translateY(20px);}
+    to{opacity:1; transform: translateY(0);}
 }
 
-.toast-container{
-  position:fixed;
-  right:20px;
-  top:100px;
-  z-index:999;
-  width:300px;
+/* Inputs */
+input{
+    background: rgba(255,255,255,0.15);
+    border:none;
+    color:white;
+    border-radius: 10px;
+    padding:12px;
+    outline:none;
+}
+input::placeholder{color: rgba(255,255,255,0.7);}
+
+/* Neon Button */
+.btn-neon{
+    background: linear-gradient(90deg,var(--neon1),var(--neon2));
+    border:none;
+    padding:12px;
+    color:black;
+    font-weight:700;
+    border-radius:12px;
+    transition: 0.2s;
+}
+.btn-neon:hover{
+    transform:scale(1.05);
+}
+
+/* Navbar */
+.navbar{
+    background: linear-gradient(90deg,#7F00FF,#56CCF2);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 5px 20px rgba(0,0,0,0.4);
+}
+
+/* Main Content */
+.main-content {
+    padding-top: 80px;
+}
+
+/* Hero Section */
+.hero{
+    background: rgba(255,255,255,0.05);
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 10px 35px rgba(0,0,0,0.15);
+}
+
+.btn-neon-alt {
+    background: linear-gradient(90deg, #56CCF2, #00F5A0);
+    border: none;
+    padding: 12px 20px;
+    font-weight: 700;
+    color: #000;
+    border-radius: 12px;
+    transition: .2s;
+}
+
+.btn-neon-alt:hover{
+    transform: scale(1.05);
+}
+
+.card-glass{
+    background: rgba(255,255,255,0.08);
+    padding: 12px;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.item-img{
+    height: 160px;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.footer{
+    margin-top: 30px;
+    text-align: center;
+    color: rgba(255,255,255,0.8);
+}
+
+/* Page container for hiding/showing */
+.page-content {
+    display: none;
+}
+
+.page-content.active {
+    display: block;
 }
 </style>
 </head>
 
-<body>
+<body class="login-view">
 
 <!-- NAVBAR -->
 <nav class="navbar navbar-expand-lg fixed-top">
   <div class="container">
-    <a class="navbar-brand text-white" href="#">⚡ EasySwap</a>
+    <a class="navbar-brand text-white fw-bold fs-3" href="#" onclick="showPage('home'); return false;">⚡ EasySwap</a>
 
     <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#nav">
       <span class="navbar-toggler-icon"></span>
@@ -365,257 +173,106 @@ input::placeholder, textarea::placeholder{
 
     <div class="collapse navbar-collapse" id="nav">
       <ul class="navbar-nav ms-auto">
-        <li class="nav-item"><a class="nav-link text-white page-link" href="#" data-page="login">Login</a></li>
-        <li class="nav-item"><a class="nav-link text-white page-link" href="#" data-page="home">Home</a></li>
-        <li class="nav-item"><a class="nav-link text-white page-link" href="#" data-page="browse">Browse</a></li>
-        <li class="nav-item"><a class="nav-link text-white page-link" href="#" data-page="add">Add Item</a></li>
-        <li class="nav-item"><a class="nav-link text-white page-link" href="#" data-page="requests">Requests</a></li>
-        <li class="nav-item"><a class="nav-link text-white page-link" href="#" data-page="myrequests">My Requests</a></li>
-        <li class="nav-item"><a class="nav-link text-white page-link" href="#" data-page="chat">Chat</a></li>
-        <li class="nav-item"><a class="nav-link text-white page-link" href="#" data-page="profile">Profile</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="#" onclick="showPage('home'); return false;">Home</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="#" onclick="showPage('browse'); return false;">Browse</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="#" onclick="showPage('add'); return false;">Add Item</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="#" onclick="showPage('requests'); return false;">Requests</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="#" onclick="showPage('myreq'); return false;">My Requests</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="#" onclick="showPage('chats'); return false;">Chat</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="#" onclick="showPage('profile'); return false;">Profile</a></li>
+        <li class="nav-item">
+            <a class="nav-link text-warning fw-bold" href="#" onclick="logout(); return false;">Logout</a>
+        </li>
       </ul>
     </div>
   </div>
 </nav>
 
-<!-- ========== LOGIN PAGE ========== -->
-<div id="login" class="page-container login-page active">
-  <div class="login-card text-center">
+<!-- LOGIN PAGE -->
+<div class="login-card">
     <h2 class="fw-bold mb-3">Welcome Back 👋</h2>
     <p style="opacity:.8;">Login to continue swapping</p>
-    <form onsubmit="event.preventDefault(); showPage('home');">
+
+    <form onsubmit="handleLogin(event); return false;">
       <input type="text" class="form-control mb-3" placeholder="Username or Email" required>
       <input type="password" class="form-control mb-3" placeholder="Password (e.g., 4444)" required>
       <button class="btn-neon w-100">Login</button>
     </form>
-  </div>
 </div>
 
-<!-- ========== HOME PAGE ========== -->
-<div id="home" class="page-container">
-  <div class="container" style="max-width:1100px;">
-    <div class="hero mt-3">
-      <div class="row align-items-center">
-        <div class="col-md-7">
-          <h1 class="display-5 fw-bold">Swap Smart. Save Money. Share Happiness.</h1>
-          <p class="lead">EasySwap connects you with students looking to exchange useful items — books, gadgets, accessories & more.</p>
-          <button class="btn-neon me-2" onclick="showPage('browse')">Browse Items</button>
-          <button class="btn btn-outline-light" onclick="showPage('add')">List an Item</button>
-        </div>
-        <div class="col-md-5 text-end">
-          <img src="https://images.unsplash.com/photo-1545235617-1f6a39ffb1b2?q=80&w=400" style="max-width:260px;border-radius:15px;box-shadow:0 15px 40px rgba(0,0,0,0.4)">
+<!-- HOME PAGE -->
+<div class="page-content" id="home-page">
+  <div class="main-content">
+    <div class="container" style="max-width:1100px;">
+      
+      <div class="hero mt-3">
+        <div class="row align-items-center">
+          <div class="col-md-7">
+            <h1 class="display-5 fw-bold">Swap Smart. Save Money. Share Happiness.</h1>
+            <p class="lead">EasySwap connects you with students looking to exchange useful items — books, gadgets, accessories & more.</p>
+            <button class="btn-neon-alt me-2" onclick="alert('Static demo — no backend!')">Browse Items</button>
+            <button class="btn btn-outline-light" onclick="alert('Static demo — no backend!')">List an Item</button>
+          </div>
+          <div class="col-md-5 text-end">
+            <img src="https://images.unsplash.com/photo-1545235617-1f6a39ffb1b2?q=80&w=400" 
+                 style="max-width:260px;border-radius:15px;box-shadow:0 15px 40px rgba(0,0,0,0.4)">
+          </div>
         </div>
       </div>
-    </div>
 
-    <h3 class="mt-4 fw-bold">Featured Items</h3>
-    <div class="row g-3 mt-1">
-      <div class="col-sm-6 col-md-4">
-        <div class="card-glass">
-          <img class="item-img" src="https://images.unsplash.com/photo-1517705008128-361805f42e86?q=80">
-          <h5 class="mt-2">Scientific Calculator</h5>
-          <small>By Ananya</small><br>
-          <small class="text-white-50">Gadgets</small>
+      <h3 class="mt-4 fw-bold">Featured Items</h3>
+      <div class="row g-3 mt-1">
+        <div class="col-sm-6 col-md-4">
+          <div class="card-glass">
+            <img class="item-img" src="https://images.unsplash.com/photo-1517705008128-361805f42e86?q=80">
+            <h5 class="mt-2">Scientific Calculator</h5>
+            <small>By Ananya</small><br>
+            <small class="text-white-50">Gadgets</small>
+          </div>
+        </div>
+        <div class="col-sm-6 col-md-4">
+          <div class="card-glass">
+            <img class="item-img" src="https://images.unsplash.com/photo-1513475382585-d06e58bcb0ea?q=80">
+            <h5 class="mt-2">Programming Textbook</h5>
+            <small>By Lakshay</small><br>
+            <small class="text-white-50">Books</small>
+          </div>
+        </div>
+        <div class="col-sm-6 col-md-4">
+          <div class="card-glass">
+            <img class="item-img" src="https://images.unsplash.com/photo-1526178612664-56a3d1c4e43e?q=80">
+            <h5 class="mt-2">Wireless Earbuds</h5>
+            <small>By Rahul</small><br>
+            <small class="text-white-50">Accessories</small>
+          </div>
+        </div>
+        <div class="col-sm-6 col-md-4">
+          <div class="card-glass">
+            <img class="item-img" src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80">
+            <h5 class="mt-2">Bluetooth Headphones</h5>
+            <small>By Aditi</small><br>
+            <small class="text-white-50">Gadgets</small>
+          </div>
+        </div>
+        <div class="col-sm-6 col-md-4">
+          <div class="card-glass">
+            <img class="item-img" src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80">
+            <h5 class="mt-2">Fitness Band</h5>
+            <small>By Rohan</small><br>
+            <small class="text-white-50">Wearables</small>
+          </div>
+        </div>
+        <div class="col-sm-6 col-md-4">
+          <div class="card-glass">
+            <img class="item-img" src="https://images.unsplash.com/photo-1499084732479-de2c02d45fcc?q=80">
+            <h5 class="mt-2">USB Microphone</h5>
+            <small>By Sneha</small><br>
+            <small class="text-white-50">Accessories</small>
+          </div>
         </div>
       </div>
-      <div class="col-sm-6 col-md-4">
-        <div class="card-glass">
-          <img class="item-img" src="https://images.unsplash.com/photo-1513475382585-d06e58bcb0ea?q=80">
-          <h5 class="mt-2">Programming Textbook</h5>
-          <small>By Lakshay</small><br>
-          <small class="text-white-50">Books</small>
-        </div>
-      </div>
-      <div class="col-sm-6 col-md-4">
-        <div class="card-glass">
-          <img class="item-img" src="https://images.unsplash.com/photo-1526178612664-56a3d1c4e43e?q=80">
-          <h5 class="mt-2">Wireless Earbuds</h5>
-          <small>By Rahul</small><br>
-          <small class="text-white-50">Accessories</small>
-        </div>
-      </div>
-      <div class="col-sm-6 col-md-4">
-        <div class="card-glass">
-          <img class="item-img" src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80">
-          <h5 class="mt-2">Bluetooth Headphones</h5>
-          <small>By Aditi</small><br>
-          <small class="text-white-50">Gadgets</small>
-        </div>
-      </div>
-      <div class="col-sm-6 col-md-4">
-        <div class="card-glass">
-          <img class="item-img" src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80">
-          <h5 class="mt-2">Fitness Band</h5>
-          <small>By Rohan</small><br>
-          <small class="text-white-50">Wearables</small>
-        </div>
-      </div>
-      <div class="col-sm-6 col-md-4">
-        <div class="card-glass">
-          <img class="item-img" src="https://images.unsplash.com/photo-1499084732479-de2c02d45fcc?q=80">
-          <h5 class="mt-2">USB Microphone</h5>
-          <small>By Sneha</small><br>
-          <small class="text-white-50">Accessories</small>
-        </div>
-      </div>
-    </div>
-    <div class="footer">© 2025 EasySwap • Built with ❤️ by Lakshay</div>
-  </div>
-</div>
 
-<!-- ========== BROWSE PAGE ========== -->
-<div id="browse" class="page-container">
-  <div class="container" style="max-width:1100px;">
-    <h2 class="fw-bold mb-3">Explore Items 🔍</h2>
-    <div class="row g-3" id="grid"></div>
-  </div>
-  <div id="toasts" class="toast-container"></div>
-</div>
-
-<!-- ========== ADD ITEM PAGE ========== -->
-<div id="add" class="page-container">
-  <div class="container">
-    <h2 class="fw-bold mb-3 text-center">List an Item 📦</h2>
-    <div id="msgBox"></div>
-    <div class="form-card">
-      <form id="itemForm">
-        <div class="mb-3">
-          <label class="form-label">Item Name</label>
-          <input type="text" name="title" class="form-control" required>
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Category</label>
-          <input type="text" name="category" class="form-control" placeholder="Books / Gadgets / Accessories">
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Description</label>
-          <textarea name="description" class="form-control" rows="3"></textarea>
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Condition</label>
-          <select name="condition_text" class="form-control">
-            <option>New</option>
-            <option>Like New</option>
-            <option>Good</option>
-            <option>Used</option>
-          </select>
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Swap Preference</label>
-          <input type="text" name="swap_preference" class="form-control" placeholder="What will you accept in exchange?">
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Image URL</label>
-          <input type="text" name="image_url" class="form-control" placeholder="Paste an image link">
-        </div>
-        <button class="btn-add w-100">List Item</button>
-      </form>
-    </div>
-  </div>
-</div>
-
-<!-- ========== REQUESTS PAGE (Incoming) ========== -->
-<div id="requests" class="page-container">
-  <div class="container" style="max-width:900px; padding-top:20px;">
-    <h2 class="fw-bold mb-3 text-center">Incoming Swap Requests 📥</h2>
-    <div class="req-card">
-      <h5 class="fw-bold">Sample Item Title</h5>
-      <p class="mb-1"><b>Requested by:</b> Username123</p>
-      <p><b>Status:</b> <span class="badge-status badge-pending">Pending</span></p>
-      <div class="d-flex gap-2 mt-2">
-        <button class="btn-accept" onclick="alert('Accept clicked (no backend)')">Accept</button>
-        <button class="btn-decline" onclick="alert('Decline clicked (no backend)')">Decline</button>
-      </div>
-    </div>
-    <div class="req-card">
-      <h5 class="fw-bold">Another Example Item</h5>
-      <p class="mb-1"><b>Requested by:</b> JohnDoe</p>
-      <p><b>Status:</b> <span class="badge-status badge-accepted">Accepted</span></p>
-    </div>
-    <div class="req-card">
-      <h5 class="fw-bold">Third Example Item</h5>
-      <p class="mb-1"><b>Requested by:</b> Alice</p>
-      <p><b>Status:</b> <span class="badge-status badge-declined">Declined</span></p>
-    </div>
-  </div>
-</div>
-
-<!-- ========== MY REQUESTS PAGE ========== -->
-<div id="myrequests" class="page-container">
-  <div class="container" style="max-width:900px; padding-top:20px;">
-    <h2 class="fw-bold mb-3 text-center">Your Swap Requests 📨</h2>
-    <div class="req-row">
-      <div class="req-info">
-        <h5 class="fw-bold mb-1">Sample Item A</h5>
-        <p class="mb-1">Sent to: <b>Username123</b></p>
-      </div>
-      <span class="badge-status badge-pending">Pending</span>
-    </div>
-    <div class="req-row">
-      <div class="req-info">
-        <h5 class="fw-bold mb-1">Gaming Keyboard</h5>
-        <p class="mb-1">Sent to: <b>Alice</b></p>
-      </div>
-      <span class="badge-status badge-accepted">Accepted</span>
-    </div>
-    <div class="req-row">
-      <div class="req-info">
-        <h5 class="fw-bold mb-1">Old Laptop Charger</h5>
-        <p class="mb-1">Sent to: <b>JohnDoe</b></p>
-      </div>
-      <span class="badge-status badge-declined">Declined</span>
-    </div>
-  </div>
-</div>
-
-<!-- ========== CHAT PAGE ========== -->
-<div id="chat" class="page-container" style="background: linear-gradient(135deg,var(--bg1),var(--bg3)); padding-top:0;">
-  <div class="chat-container">
-    <div class="search-box">
-      <input type="number" id="userIdInput" placeholder="Enter User ID to chat...">
-      <button class="search-btn" onclick="selectUser()">Chat</button>
-    </div>
-    <div id="errorBox" class="alert alert-danger mt-2 d-none"></div>
-    <div id="chatWindow" style="display:none; width:100%; height:100%; flex-direction:column;">
-      <div class="messages-area" id="messages"></div>
-      <div class="send-box">
-        <input type="text" id="messageInput" placeholder="Type your message...">
-        <button class="send-btn" onclick="sendMessage()">Send</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ========== PROFILE PAGE ========== -->
-<div id="profile" class="page-container">
-  <div class="container" style="max-width:900px; padding-top:20px;">
-    <div class="profile-header mb-5">
-      <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=StaticUser" class="avatar">
-    </div>
-    <div class="info-card">
-      <h3 class="fw-bold">John Doe</h3>
-      <p class="mb-1"><b>Email:</b> johndoe@example.com</p>
-      <p class="mb-1"><b>Contact:</b> +123 456 7890</p>
-      <p><b>Member since:</b> 01 Jan 2024</p>
-    </div>
-    <h3 class="fw-bold mt-4 mb-2">Your Items 📦</h3>
-    <div class="row g-3">
-      <div class="col-sm-6">
-        <div class="card-glass">
-          <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80" class="item-img">
-          <h5 class="mt-2 fw-bold">Sample Item</h5>
-          <small>Category</small>
-          <p class="mt-1">Short sample description goes here...</p>
-        </div>
-      </div>
-      <div class="col-sm-6">
-        <div class="card-glass">
-          <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80" class="item-img">
-          <h5 class="mt-2 fw-bold">Another Item</h5>
-          <small>Category</small>
-          <p class="mt-1">Another short description here...</p>
-        </div>
-      </div>
+      <div class="footer">© 2025 EasySwap • Built with ❤️ by Lakshay</div>
     </div>
   </div>
 </div>
@@ -623,124 +280,24 @@ input::placeholder, textarea::placeholder{
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
-// PAGE NAVIGATION
-function showPage(pageId){
-  document.querySelectorAll('.page-container').forEach(el => el.classList.remove('active'));
-  document.getElementById(pageId).classList.add('active');
+function handleLogin(event) {
+  event.preventDefault();
+  document.body.classList.remove('login-view');
+  document.querySelector('.navbar').style.display = 'block';
+  showPage('home');
 }
 
-document.querySelectorAll('.page-link').forEach(link => {
-  link.addEventListener('click', e => {
-    e.preventDefault();
-    showPage(link.dataset.page);
-  });
-});
-
-// BROWSE PAGE - Items
-const browseItems = [
-  {id: 1, title: "Scientific Calculator", username: "Rohan", description: "Casio FX-82MS, perfect condition.", image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80"},
-  {id: 2, title: "Laptop Stand", username: "Meera", description: "Adjustable, metallic, good for posture.", image: "https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?q=80"},
-  {id: 3, title: "Headphones", username: "Aryan", description: "Excellent bass, soft cushions.", image: "https://images.unsplash.com/photo-1519677100203-a0e668c92439?q=80"},
-  {id: 4, title: "Programming Book", username: "Lakshay", description: "Clean & well-maintained DSA book.", image: "https://images.unsplash.com/photo-1516979187457-637abb4f9353?q=80"},
-  {id: 5, title: "Sports Bottle", username: "Tina", description: "Leak-proof gym bottle.", image: "https://images.unsplash.com/photo-1543163521-1bf539c55dd5?q=80"},
-  {id: 6, title: "Mobile Tripod", username: "Karan", description: "Used for 2 months only.", image: "https://images.unsplash.com/photo-1593642634315-48f5414c3ad9?q=80"}
-];
-
-function renderBrowseItems(){
-  let html = "";
-  browseItems.forEach(i=>{
-    html += `<div class="col-sm-6 col-md-4"><div class="card-glass"><img src="${i.image}" class="item-img"><h5 class="mt-2">${i.title}</h5><small>By <b>${i.username}</b></small><p style="font-size:14px;">${i.description.slice(0,50)}...</p><button class="btn-sw w-100 mt-2 req" data-id="${i.id}">Request Swap</button></div></div>`;
-  });
-  document.getElementById("grid").innerHTML = html;
+function showPage(pageName) {
+  document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
+  const page = document.getElementById(pageName + '-page');
+  if (page) page.classList.add('active');
 }
 
-function toast(msg, ok=true){
-  let t=$(` <div class="toast text-bg-${ok ? "success" : "danger"} show border-0"><div class="d-flex"><div class="toast-body">${msg}</div><button class="btn-close btn-close-white me-2 m-auto"></button></div></div> `);
-  $("#toasts").append(t.hide().fadeIn(300));
-  setTimeout(()=> t.fadeOut(300,()=>t.remove()), 3000);
+function logout() {
+  document.body.classList.add('login-view');
+  document.querySelector('.login-card').style.display = 'block';
+  document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
 }
-
-document.addEventListener("click", e=>{
-  if(e.target.classList.contains("req")){
-    let id = e.target.dataset.id;
-    e.target.disabled = true;
-    e.target.textContent = "Sending...";
-    setTimeout(()=>{
-      let responses = [{code:200, msg:"Swap request sent successfully!"},{code:401, msg:"401: Login required"},{code:403, msg:"403: Forbidden (your own item)"},{code:409, msg:"409: Request already pending"},{code:500, msg:"500: Server error"}];
-      let r = responses[Math.floor(Math.random()*responses.length)];
-      if(r.code === 200) toast(r.msg, true);
-      else toast(r.msg, false);
-      e.target.disabled = false;
-      e.target.textContent = "Request Swap";
-    }, 800);
-  }
-});
-
-// ADD ITEM - localStorage
-document.getElementById("itemForm").addEventListener("submit", function(e){
-  e.preventDefault();
-  let form = new FormData(this);
-  let item = {
-    title: form.get("title"),
-    category: form.get("category"),
-    description: form.get("description"),
-    condition: form.get("condition_text"),
-    swap: form.get("swap_preference"),
-    image: form.get("image_url"),
-    time: new Date().toLocaleString()
-  };
-  let list = JSON.parse(localStorage.getItem("items") || "[]");
-  list.push(item);
-  localStorage.setItem("items", JSON.stringify(list));
-  document.getElementById("msgBox").innerHTML = `<div class="alert alert-success text-dark text-center fw-bold">Item listed successfully! Check Browse page.</div>`;
-  this.reset();
-});
-
-// CHAT
-let currentUser = null;
-let messages = [];
-
-function selectUser() {
-  const id = document.getElementById("userIdInput").value.trim();
-  if(id === "" || id == 0){
-    let box = document.getElementById("errorBox");
-    box.innerText = "Invalid user ID!";
-    box.classList.remove("d-none");
-    return;
-  }
-  currentUser = id;
-  document.getElementById("chatWindow").style.display = "flex";
-  document.getElementById("errorBox").classList.add("d-none");
-  loadMessages();
-}
-
-function loadMessages(){
-  const box = document.getElementById("messages");
-  box.innerHTML = "";
-  messages.filter(m => m.user == currentUser).forEach(m => {
-    const div = document.createElement("div");
-    div.className = "msg " + (m.me ? "me" : "them");
-    div.innerText = m.text;
-    box.appendChild(div);
-  });
-  box.scrollTop = box.scrollHeight;
-}
-
-function sendMessage(){
-  const input = document.getElementById("messageInput");
-  const text = input.value.trim();
-  if(text === "") return;
-  messages.push({user: currentUser, text: text, me: true});
-  input.value = "";
-  loadMessages();
-  setTimeout(() => {
-    messages.push({user: currentUser, text: "Got your message!", me: false});
-    loadMessages();
-  }, 1000);
-}
-
-// Initialize
-renderBrowseItems();
 </script>
 
 </body>
