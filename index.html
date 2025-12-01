@@ -2,303 +2,234 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>EasySwap</title>
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EasySwap SPA</title>
 
+<!-- BOOTSTRAP -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
+<!-- GOOGLE FONTS -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
 <style>
-:root{
-  --v1:#0f0f1f; 
-  --v2:#1f1f35;
+:root {
   --neon1:#7F00FF;
   --neon2:#00F5A0;
+  --bg1:#0f0f1f;
+  --bg2:#1f1f35;
 }
 
-* {
-  margin: 0;
-  padding: 0;
-}
-
-html, body {
-  height: 100%;
-  width: 100%;
-}
-
-body{
-    background: linear-gradient(135deg, #7F00FF, #56CCF2);
-    font-family: 'Inter', sans-serif;
-    color:white;
-}
-
-/* Login page specific styling */
-body.login-view {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    background: radial-gradient(circle at top, var(--neon1), var(--v2));
-}
-
-body.login-view .navbar {
-    display: none;
-}
-
-body.login-view .login-card {
-    display: block;
-}
-
-body:not(.login-view) .login-card {
-    display: none;
-}
-
-/* Floating Card */
-.login-card{
-    width: 380px;
-    padding: 28px;
-    padding-top: 35px;
-    border-radius: 18px;
-    background: rgba(255,255,255,0.08);
-    backdrop-filter: blur(15px);
-    box-shadow: 0 20px 50px rgba(0,0,0,0.4);
-    animation: fadeIn .6s ease;
-    text-align: center;
-}
-
-@keyframes fadeIn{
-    from{opacity:0; transform: translateY(20px);}
-    to{opacity:1; transform: translateY(0);}
-}
-
-/* Inputs */
-input{
-    background: rgba(255,255,255,0.15);
-    border:none;
-    color:white;
-    border-radius: 10px;
-    padding:12px;
-    outline:none;
-}
-input::placeholder{color: rgba(255,255,255,0.7);}
-
-/* Neon Button */
-.btn-neon{
-    background: linear-gradient(90deg,var(--neon1),var(--neon2));
-    border:none;
-    padding:12px;
-    color:black;
-    font-weight:700;
-    border-radius:12px;
-    transition: 0.2s;
-}
-.btn-neon:hover{
-    transform:scale(1.05);
+body {
+  font-family:'Inter', sans-serif;
+  background: radial-gradient(circle at top, var(--neon1), var(--bg2));
+  color:white;
+  margin:0;
+  padding-top:80px;
+  min-height:100vh;
 }
 
 /* Navbar */
 .navbar{
-    background: linear-gradient(90deg,#7F00FF,#56CCF2);
-    backdrop-filter: blur(10px);
-    box-shadow: 0 5px 20px rgba(0,0,0,0.4);
+  background: linear-gradient(90deg,var(--neon1),#56CCF2);
+  box-shadow:0 5px 20px rgba(0,0,0,0.4);
+}
+.nav-link{cursor:pointer;}
+
+/* General Sections */
+section{
+  display:none;
+  padding:20px;
+}
+section.active{
+  display:block;
 }
 
-/* Main Content */
-.main-content {
-    padding-top: 80px;
+/* Cards */
+.card-glass, .item-card, .form-card{
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(12px);
+  border-radius: 15px;
+  padding:15px;
+  margin-bottom:15px;
 }
 
-/* Hero Section */
-.hero{
-    background: rgba(255,255,255,0.05);
-    padding: 40px;
-    border-radius: 15px;
-    box-shadow: 0 10px 35px rgba(0,0,0,0.15);
+/* Buttons */
+.btn-neon, .btn-add, .btn-sw{
+  background: linear-gradient(90deg,var(--neon1),var(--neon2));
+  color:black;
+  font-weight:700;
+  border:none;
+  border-radius:12px;
+  transition:0.2s;
+}
+.btn-neon:hover, .btn-add:hover, .btn-sw:hover{
+  transform:scale(1.05);
 }
 
-.btn-neon-alt {
-    background: linear-gradient(90deg, #56CCF2, #00F5A0);
-    border: none;
-    padding: 12px 20px;
-    font-weight: 700;
-    color: #000;
-    border-radius: 12px;
-    transition: .2s;
+/* Input Fields */
+input, select, textarea{
+  background: rgba(255,255,255,0.15);
+  border:none;
+  border-radius:10px;
+  padding:8px;
+  color:white;
 }
+input::placeholder, textarea::placeholder{color: rgba(255,255,255,0.7);}
 
-.btn-neon-alt:hover{
-    transform: scale(1.05);
+/* Chat */
+.chat-container{
+  display:flex;
+  flex-direction:column;
+  height:60vh;
 }
-
-.card-glass{
-    background: rgba(255,255,255,0.08);
-    padding: 12px;
-    border-radius: 12px;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+.messages-area{
+  flex:1;
+  overflow-y:auto;
+  margin-bottom:10px;
 }
-
-.item-img{
-    height: 160px;
-    width: 100%;
-    object-fit: cover;
-    border-radius: 10px;
+.msg{
+  max-width:60%;
+  padding:10px;
+  border-radius:12px;
+  margin-bottom:10px;
 }
-
-.footer{
-    margin-top: 30px;
-    text-align: center;
-    color: rgba(255,255,255,0.8);
-}
-
-/* Page container for hiding/showing */
-.page-content {
-    display: none;
-}
-
-.page-content.active {
-    display: block;
-}
+.msg.me{background: var(--neon2); color:black; margin-left:auto;}
+.msg.them{background: rgba(255,255,255,0.18);}
 </style>
 </head>
-
-<body class="login-view">
+<body>
 
 <!-- NAVBAR -->
 <nav class="navbar navbar-expand-lg fixed-top">
   <div class="container">
-    <a class="navbar-brand text-white fw-bold fs-3" href="#" onclick="showPage('home'); return false;">⚡ EasySwap</a>
-
-    <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#nav">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
+    <a class="navbar-brand fw-bold fs-3 text-white">⚡ EasySwap</a>
     <div class="collapse navbar-collapse" id="nav">
       <ul class="navbar-nav ms-auto">
-        <li class="nav-item"><a class="nav-link text-white" href="#" onclick="showPage('home'); return false;">Home</a></li>
-        <li class="nav-item"><a class="nav-link text-white" href="#" onclick="showPage('browse'); return false;">Browse</a></li>
-        <li class="nav-item"><a class="nav-link text-white" href="#" onclick="showPage('add'); return false;">Add Item</a></li>
-        <li class="nav-item"><a class="nav-link text-white" href="#" onclick="showPage('requests'); return false;">Requests</a></li>
-        <li class="nav-item"><a class="nav-link text-white" href="#" onclick="showPage('myreq'); return false;">My Requests</a></li>
-        <li class="nav-item"><a class="nav-link text-white" href="#" onclick="showPage('chats'); return false;">Chat</a></li>
-        <li class="nav-item"><a class="nav-link text-white" href="#" onclick="showPage('profile'); return false;">Profile</a></li>
-        <li class="nav-item">
-            <a class="nav-link text-warning fw-bold" href="#" onclick="logout(); return false;">Logout</a>
-        </li>
+        <li class="nav-item"><span class="nav-link" data-target="home">Home</span></li>
+        <li class="nav-item"><span class="nav-link" data-target="browse">Browse</span></li>
+        <li class="nav-item"><span class="nav-link" data-target="addItem">Add Item</span></li>
+        <li class="nav-item"><span class="nav-link" data-target="requests">Requests</span></li>
+        <li class="nav-item"><span class="nav-link" data-target="myRequests">My Requests</span></li>
+        <li class="nav-item"><span class="nav-link" data-target="chat">Chat</span></li>
+        <li class="nav-item"><span class="nav-link" data-target="profile">Profile</span></li>
+        <li class="nav-item"><span class="nav-link text-warning" data-target="login">Logout/Login</span></li>
       </ul>
     </div>
   </div>
 </nav>
 
-<!-- LOGIN PAGE -->
-<div class="login-card">
-    <h2 class="fw-bold mb-3">Welcome Back 👋</h2>
-    <p style="opacity:.8;">Login to continue swapping</p>
-
-    <form onsubmit="handleLogin(event); return false;">
-      <input type="text" class="form-control mb-3" placeholder="Username or Email" required>
-      <input type="password" class="form-control mb-3" placeholder="Password (e.g., 4444)" required>
-      <button class="btn-neon w-100">Login</button>
-    </form>
-</div>
-
-<!-- HOME PAGE -->
-<div class="page-content" id="home-page">
-  <div class="main-content">
-    <div class="container" style="max-width:1100px;">
-      
-      <div class="hero mt-3">
-        <div class="row align-items-center">
-          <div class="col-md-7">
-            <h1 class="display-5 fw-bold">Swap Smart. Save Money. Share Happiness.</h1>
-            <p class="lead">EasySwap connects you with students looking to exchange useful items — books, gadgets, accessories & more.</p>
-            <button class="btn-neon-alt me-2" onclick="alert('Static demo — no backend!')">Browse Items</button>
-            <button class="btn btn-outline-light" onclick="alert('Static demo — no backend!')">List an Item</button>
-          </div>
-          <div class="col-md-5 text-end">
-            <img src="https://images.unsplash.com/photo-1545235617-1f6a39ffb1b2?q=80&w=400" 
-                 style="max-width:260px;border-radius:15px;box-shadow:0 15px 40px rgba(0,0,0,0.4)">
-          </div>
-        </div>
-      </div>
-
-      <h3 class="mt-4 fw-bold">Featured Items</h3>
-      <div class="row g-3 mt-1">
-        <div class="col-sm-6 col-md-4">
-          <div class="card-glass">
-            <img class="item-img" src="https://images.unsplash.com/photo-1517705008128-361805f42e86?q=80">
-            <h5 class="mt-2">Scientific Calculator</h5>
-            <small>By Ananya</small><br>
-            <small class="text-white-50">Gadgets</small>
-          </div>
-        </div>
-        <div class="col-sm-6 col-md-4">
-          <div class="card-glass">
-            <img class="item-img" src="https://images.unsplash.com/photo-1513475382585-d06e58bcb0ea?q=80">
-            <h5 class="mt-2">Programming Textbook</h5>
-            <small>By Lakshay</small><br>
-            <small class="text-white-50">Books</small>
-          </div>
-        </div>
-        <div class="col-sm-6 col-md-4">
-          <div class="card-glass">
-            <img class="item-img" src="https://images.unsplash.com/photo-1526178612664-56a3d1c4e43e?q=80">
-            <h5 class="mt-2">Wireless Earbuds</h5>
-            <small>By Rahul</small><br>
-            <small class="text-white-50">Accessories</small>
-          </div>
-        </div>
-        <div class="col-sm-6 col-md-4">
-          <div class="card-glass">
-            <img class="item-img" src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80">
-            <h5 class="mt-2">Bluetooth Headphones</h5>
-            <small>By Aditi</small><br>
-            <small class="text-white-50">Gadgets</small>
-          </div>
-        </div>
-        <div class="col-sm-6 col-md-4">
-          <div class="card-glass">
-            <img class="item-img" src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80">
-            <h5 class="mt-2">Fitness Band</h5>
-            <small>By Rohan</small><br>
-            <small class="text-white-50">Wearables</small>
-          </div>
-        </div>
-        <div class="col-sm-6 col-md-4">
-          <div class="card-glass">
-            <img class="item-img" src="https://images.unsplash.com/photo-1499084732479-de2c02d45fcc?q=80">
-            <h5 class="mt-2">USB Microphone</h5>
-            <small>By Sneha</small><br>
-            <small class="text-white-50">Accessories</small>
-          </div>
-        </div>
-      </div>
-
-      <div class="footer">© 2025 EasySwap • Built with ❤️ by Lakshay</div>
+<!-- HOME -->
+<section id="home" class="active">
+  <div class="container">
+    <h1>Swap Smart. Save Money. Share Happiness.</h1>
+    <p>EasySwap connects you with students looking to exchange useful items — books, gadgets, accessories & more.</p>
+    <button class="btn-neon" onclick="showSection('browse')">Browse Items</button>
+    <button class="btn-neon" onclick="showSection('addItem')">List an Item</button>
+    <h3 class="mt-4">Featured Items</h3>
+    <div class="row">
+      <div class="col-md-4"><div class="card-glass">Item 1</div></div>
+      <div class="col-md-4"><div class="card-glass">Item 2</div></div>
+      <div class="col-md-4"><div class="card-glass">Item 3</div></div>
     </div>
   </div>
-</div>
+</section>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- LOGIN -->
+<section id="login">
+  <div class="container">
+    <h2>Login</h2>
+    <input type="text" placeholder="Username">
+    <input type="password" placeholder="Password">
+    <button class="btn-neon" onclick="alert('Simulated Login')">Login</button>
+  </div>
+</section>
+
+<!-- BROWSE -->
+<section id="browse">
+  <div class="container">
+    <h2>Browse Items</h2>
+    <div class="row">
+      <div class="col-md-4"><div class="item-card">Item A<button class="btn-sw w-100 mt-2" onclick="alert('Request Sent')">Request Swap</button></div></div>
+      <div class="col-md-4"><div class="item-card">Item B<button class="btn-sw w-100 mt-2" onclick="alert('Request Sent')">Request Swap</button></div></div>
+      <div class="col-md-4"><div class="item-card">Item C<button class="btn-sw w-100 mt-2" onclick="alert('Request Sent')">Request Swap</button></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ADD ITEM -->
+<section id="addItem">
+  <div class="container">
+    <h2>List an Item</h2>
+    <div class="form-card">
+      <input type="text" placeholder="Item Name">
+      <input type="text" placeholder="Category">
+      <textarea placeholder="Description"></textarea>
+      <select>
+        <option>New</option>
+        <option>Like New</option>
+        <option>Good</option>
+        <option>Used</option>
+      </select>
+      <input type="text" placeholder="Swap Preference">
+      <input type="text" placeholder="Image URL">
+      <button class="btn-add w-100 mt-2" onclick="alert('Item Listed!')">List Item</button>
+    </div>
+  </div>
+</section>
+
+<!-- REQUESTS -->
+<section id="requests">
+  <div class="container">
+    <h2>Swap Requests</h2>
+    <div class="card-glass">No requests yet.</div>
+  </div>
+</section>
+
+<!-- MY REQUESTS -->
+<section id="myRequests">
+  <div class="container">
+    <h2>My Requests</h2>
+    <div class="card-glass">You haven't sent any requests yet.</div>
+  </div>
+</section>
+
+<!-- CHAT -->
+<section id="chat">
+  <div class="container">
+    <h2>Chat</h2>
+    <div class="chat-container">
+      <div class="messages-area">
+        <div class="msg me">Hello!</div>
+        <div class="msg them">Hi, interested in swapping?</div>
+      </div>
+      <input type="text" class="form-control" placeholder="Type a message...">
+      <button class="btn-neon mt-2" onclick="alert('Message Sent')">Send</button>
+    </div>
+  </div>
+</section>
+
+<!-- PROFILE -->
+<section id="profile">
+  <div class="container">
+    <h2>Profile</h2>
+    <div class="card-glass p-3">Username: John Doe<br>Email: john@example.com</div>
+  </div>
+</section>
 
 <script>
-function handleLogin(event) {
-  event.preventDefault();
-  document.body.classList.remove('login-view');
-  document.querySelector('.navbar').style.display = 'block';
-  showPage('home');
+function showSection(id){
+  document.querySelectorAll('section').forEach(sec=>{
+    sec.classList.remove('active');
+  });
+  document.getElementById(id).classList.add('active');
 }
 
-function showPage(pageName) {
-  document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
-  const page = document.getElementById(pageName + '-page');
-  if (page) page.classList.add('active');
-}
-
-function logout() {
-  document.body.classList.add('login-view');
-  document.querySelector('.login-card').style.display = 'block';
-  document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
-}
+// Navbar click
+document.querySelectorAll('.nav-link').forEach(el=>{
+  el.addEventListener('click', ()=> showSection(el.dataset.target));
+});
 </script>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
