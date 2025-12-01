@@ -1,0 +1,205 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>EasySwap — Browse</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+body{
+    background:linear-gradient(135deg,#00DBDE,#FC00FF);
+    padding-top:80px;
+    color:#fff;
+    font-family:Inter, sans-serif;
+}
+.navbar{
+    background:linear-gradient(90deg,#7F00FF,#56CCF2);
+}
+
+.item-card{
+    background:rgba(255,255,255,0.12);
+    border-radius:12px;
+    padding:12px;
+    backdrop-filter:blur(6px);
+    transition:.3s;
+}
+.item-card:hover{
+    transform:translateY(-4px);
+}
+
+.item-img{
+    width:100%;
+    height:180px;
+    object-fit:cover;
+    border-radius:12px;
+}
+
+.btn-sw{
+    background:linear-gradient(90deg,#56CCF2,#00F5A0);
+    border:none;
+    color:#000;
+    font-weight:600;
+    border-radius:10px;
+    transition:0.2s;
+}
+.btn-sw:hover{
+    transform:scale(1.05);
+}
+
+.toast-container{
+    position:fixed;
+    right:20px;
+    top:100px;
+    z-index:999;
+    width:300px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg fixed-top">
+    <div class="container">
+        <a class="navbar-brand text-white fw-bold fs-3" href="#">⚡ EasySwap</a>
+    </div>
+</nav>
+
+<!-- MAIN -->
+<div class="container" style="max-width:1100px;">
+<h2 class="fw-bold mb-3">Explore Items 🔍</h2>
+
+<div class="row g-3" id="grid"></div>
+</div>
+
+<!-- TOASTS -->
+<div id="toasts" class="toast-container"></div>
+
+<script>
+/* -------------------------------------------------------
+   STATIC DUMMY ITEMS (since no database)
+------------------------------------------------------- */
+const items = [
+    {
+        id: 1,
+        title: "Scientific Calculator",
+        username: "Rohan",
+        description: "Casio FX-82MS, perfect condition.",
+        image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80"
+    },
+    {
+        id: 2,
+        title: "Laptop Stand",
+        username: "Meera",
+        description: "Adjustable, metallic, good for posture.",
+        image: "https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?q=80"
+    },
+    {
+        id: 3,
+        title: "Headphones",
+        username: "Aryan",
+        description: "Excellent bass, soft cushions.",
+        image: "https://images.unsplash.com/photo-1519677100203-a0e668c92439?q=80"
+    },
+    {
+        id: 4,
+        title: "Programming Book",
+        username: "Lakshay",
+        description: "Clean & well-maintained DSA book.",
+        image: "https://images.unsplash.com/photo-1516979187457-637abb4f9353?q=80"
+    },
+    {
+        id: 5,
+        title: "Sports Bottle",
+        username: "Tina",
+        description: "Leak-proof gym bottle.",
+        image: "https://images.unsplash.com/photo-1543163521-1bf539c55dd5?q=80"
+    },
+    {
+        id: 6,
+        title: "Mobile Tripod",
+        username: "Karan",
+        description: "Used for 2 months only.",
+        image: "https://images.unsplash.com/photo-1593642634315-48f5414c3ad9?q=80"
+    }
+];
+
+/* -------------------------------------------------------
+   LOAD ITEMS INTO PAGE
+------------------------------------------------------- */
+function renderItems(){
+    let html = "";
+    items.forEach(i=>{
+        html += `
+        <div class="col-sm-6 col-md-4">
+        <div class="item-card">
+            <img src="${i.image}" class="item-img">
+            <h5 class="mt-2">${i.title}</h5>
+            <small>By <b>${i.username}</b></small>
+            <p style="font-size:14px;">${i.description.slice(0,50)}...</p>
+            <button class="btn-sw w-100 mt-2 req" data-id="${i.id}">Request Swap</button>
+        </div>
+        </div>`;
+    });
+    document.getElementById("grid").innerHTML = html;
+}
+renderItems();
+
+/* -------------------------------------------------------
+   TOAST FUNCTION (IDENTICAL LOOK)
+------------------------------------------------------- */
+function toast(msg, ok=true){
+ let t=$(`
+    <div class="toast text-bg-${ok ? "success" : "danger"} show border-0">
+        <div class="d-flex">
+            <div class="toast-body">${msg}</div>
+            <button class="btn-close btn-close-white me-2 m-auto"></button>
+        </div>
+    </div>
+ `);
+ $("#toasts").append(t.hide().fadeIn(300));
+ setTimeout(()=> t.fadeOut(300,()=>t.remove()), 3000);
+}
+
+/* -------------------------------------------------------
+   SIMULATED SWAP REQUEST (FRONTEND ONLY)
+------------------------------------------------------- */
+document.addEventListener("click", e=>{
+    if(e.target.classList.contains("req")){
+        
+        let id = e.target.dataset.id;
+
+        // Disable temporarily
+        e.target.disabled = true;
+        e.target.textContent = "Sending...";
+
+        // Fake AJAX delay
+        setTimeout(()=>{
+
+            // RANDOM fake responses
+            let responses = [
+                {code:200, msg:"Swap request sent successfully!"},
+                {code:401, msg:"401: Login required"},
+                {code:403, msg:"403: Forbidden (your own item)"},
+                {code:409, msg:"409: Request already pending"},
+                {code:500, msg:"500: Server error"}
+            ];
+
+            let r = responses[Math.floor(Math.random()*responses.length)];
+
+            if(r.code === 200) toast(r.msg, true);
+            else toast(r.msg, false);
+
+            e.target.disabled = false;
+            e.target.textContent = "Request Swap";
+
+        }, 800);
+    }
+});
+</script>
+
+</body>
+</html>

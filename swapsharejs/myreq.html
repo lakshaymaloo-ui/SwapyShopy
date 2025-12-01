@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>EasySwap — My Requests</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+:root{
+  --c1:#09203f;
+  --c2:#537895;
+}
+body{
+  background: linear-gradient(135deg,var(--c1),var(--c2));
+  padding-top: 80px;
+  color:white;
+  font-family:"Inter",sans-serif;
+}
+
+/* NAVBAR */
+.navbar{
+  background: linear-gradient(90deg,#7F00FF,#56CCF2);
+  backdrop-filter: blur(8px);
+  box-shadow:0 5px 25px rgba(0,0,0,0.3);
+}
+
+/* Request Row Card */
+.req-row{
+  background: rgba(255,255,255,0.13);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  padding: 18px;
+  margin-bottom: 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow:0 10px 45px rgba(0,0,0,0.25);
+  transition:0.15s;
+}
+.req-row:hover{
+  transform: translateY(-4px);
+}
+
+/* Info Section */
+.req-info{
+  max-width:70%;
+}
+
+/* Status Badges */
+.badge-status{
+  padding: 6px 12px;
+  font-size: 14px;
+  border-radius: 999px;
+  font-weight:600;
+}
+.badge-pending{ background: #ffc107; color:black; }
+.badge-accepted{ background: #00F5A0; color:black; }
+.badge-declined{ background: #ff4f4f; color:white; }
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg fixed-top">
+  <div class="container">
+
+    <a class="navbar-brand text-white fw-bold fs-3" href="#">⚡ EasySwap</a>
+
+    <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#nav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="nav">
+      <ul class="navbar-nav ms-auto">
+
+        <li class="nav-item"><a class="nav-link text-white" href="#">Home</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="#">Browse</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="#">Add Item</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="#">Requests</a></li>
+
+        <li class="nav-item">
+            <a class="nav-link active text-warning fw-bold" href="#">My Requests</a>
+        </li>
+
+        <li class="nav-item"><a class="nav-link text-white" href="#">Chat</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="#">Profile</a></li>
+
+        <li class="nav-item">
+            <a class="nav-link text-warning fw-bold" href="#">Logout</a>
+        </li>
+
+      </ul>
+    </div>
+
+  </div>
+</nav>
+
+
+<div class="container" style="max-width:900px;">
+
+  <h2 class="fw-bold mb-3 text-center">Your Swap Requests 📨</h2>
+
+  <!-- EXAMPLE: Empty placeholder (remove if not needed) -->
+  <!--
+  <div class="alert alert-light text-dark text-center fw-bold">
+      You haven't sent any swap requests yet.
+  </div>
+  -->
+
+  <!-- STATIC SAMPLE REQUEST 1 -->
+  <div class="req-row">
+    <div class="req-info">
+       <h5 class="fw-bold mb-1">Sample Item A</h5>
+       <p class="mb-1">Sent to: <b>Username123</b></p>
+    </div>
+    <span class="badge-status badge-pending">Pending</span>
+  </div>
+
+  <!-- STATIC SAMPLE REQUEST 2 -->
+  <div class="req-row">
+    <div class="req-info">
+       <h5 class="fw-bold mb-1">Gaming Keyboard</h5>
+       <p class="mb-1">Sent to: <b>Alice</b></p>
+    </div>
+    <span class="badge-status badge-accepted">Accepted</span>
+  </div>
+
+  <!-- STATIC SAMPLE REQUEST 3 -->
+  <div class="req-row">
+    <div class="req-info">
+       <h5 class="fw-bold mb-1">Old Laptop Charger</h5>
+       <p class="mb-1">Sent to: <b>JohnDoe</b></p>
+    </div>
+    <span class="badge-status badge-declined">Declined</span>
+  </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

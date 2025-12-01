@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+<meta charset="utf-8">
+<title>EasySwap — Chat</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+:root{
+    --bg1:#0f2027;
+    --bg2:#203a43;
+    --bg3:#2c5364;
+    --bubbleMe:#00F5A0;
+    --bubbleThem:#7F00FF;
+}
+
+body{
+    background: linear-gradient(135deg,var(--bg1),var(--bg3));
+    padding-top: 80px;
+    height:100vh;
+    font-family:"Inter",sans-serif;
+    color:white;
+    overflow:hidden;
+}
+
+/* NAVBAR */
+.navbar{
+  background: linear-gradient(90deg,#7F00FF,#56CCF2);
+  box-shadow:0 5px 25px rgba(0,0,0,.4);
+}
+
+/* MAIN CHAT WRAPPER */
+.chat-container{
+    width:100%;
+    height: calc(100vh - 110px);
+    display:flex;
+    flex-direction:column;
+    padding:20px;
+}
+
+/* SEARCH USER */
+.search-box{
+    background: rgba(255,255,255,0.15);
+    padding:15px;
+    border-radius:15px;
+    display:flex;
+    gap:10px;
+    box-shadow:0 10px 30px rgba(0,0,0,.3);
+}
+.search-box input{
+    flex:1;
+    background:transparent;
+    border:none;
+    outline:none;
+    color:white;
+    font-size:16px;
+}
+.search-btn{
+    background:linear-gradient(90deg,#7F00FF,#00F5A0);
+    border:none;
+    padding:10px 18px;
+    border-radius:12px;
+    font-weight:700;
+    color:black;
+}
+
+/* CHAT MESSAGES */
+.messages-area{
+    flex:1;
+    overflow-y:auto;
+    margin-top:15px;
+    padding:12px;
+}
+.msg{
+    max-width:65%;
+    padding:10px 15px;
+    border-radius:12px;
+    margin-bottom:12px;
+    font-size:15px;
+    line-height:1.3;
+    word-wrap:break-word;
+}
+.msg.me{
+    background:var(--bubbleMe);
+    color:black;
+    margin-left:auto;
+    border-bottom-right-radius:2px;
+}
+.msg.them{
+    background:rgba(255,255,255,0.18);
+    margin-right:auto;
+    border-bottom-left-radius:2px;
+}
+
+/* SEND BOX */
+.send-box{
+    display:flex;
+    gap:10px;
+    margin-top:10px;
+}
+.send-box input{
+    flex:1;
+    background:rgba(255,255,255,0.15);
+    border:none;
+    padding:12px;
+    border-radius:12px;
+    color:white;
+}
+.send-btn{
+    background:linear-gradient(90deg,#00F5A0,#7F00FF);
+    border:none;
+    padding:12px 22px;
+    border-radius:12px;
+    color:black;
+    font-weight:700;
+}
+</style>
+
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg fixed-top">
+    <div class="container">
+        <a class="navbar-brand text-white fw-bold fs-3" href="#">⚡ EasySwap</a>
+    </div>
+</nav>
+
+<div style="height:20px;"></div>
+
+<!-- MAIN CHAT AREA -->
+<div class="chat-container">
+
+    <!-- ENTER USER ID BOX -->
+    <div class="search-box">
+        <input type="number" id="userIdInput" placeholder="Enter User ID to chat...">
+        <button class="search-btn" onclick="selectUser()">Chat</button>
+    </div>
+
+    <div id="errorBox" class="alert alert-danger mt-2 d-none"></div>
+
+    <!-- CHAT WINDOW -->
+    <div id="chatWindow" style="display:none; width:100%; height:100%; flex-direction:column;">
+
+        <div class="messages-area" id="messages"></div>
+
+        <!-- SEND MESSAGE BAR -->
+        <div class="send-box">
+            <input type="text" id="messageInput" placeholder="Type your message...">
+            <button class="send-btn" onclick="sendMessage()">Send</button>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+let currentUser = null;
+let messages = []; // stored in memory only
+
+function selectUser() {
+    const id = document.getElementById("userIdInput").value.trim();
+
+    if(id === "" || id == 0){
+        showError("Invalid user ID!");
+        return;
+    }
+
+    currentUser = id;
+
+    document.getElementById("chatWindow").style.display = "flex";
+    document.getElementById("errorBox").classList.add("d-none");
+
+    loadMessages();
+}
+
+function showError(msg){
+    let box = document.getElementById("errorBox");
+    box.innerText = msg;
+    box.classList.remove("d-none");
+}
+
+function loadMessages(){
+    const box = document.getElementById("messages");
+    box.innerHTML = "";
+
+    messages
+        .filter(m => m.user == currentUser)
+        .forEach(m => {
+            const div = document.createElement("div");
+            div.className = "msg " + (m.me ? "me" : "them");
+            div.innerText = m.text;
+            box.appendChild(div);
+        });
+
+    box.scrollTop = box.scrollHeight;
+}
+
+function sendMessage(){
+    const input = document.getElementById("messageInput");
+    const text = input.value.trim();
+    if(text === "") return;
+
+    messages.push({
+        user: currentUser,
+        text: text,
+        me: true
+    });
+
+    input.value = "";
+    loadMessages();
+
+    // Fake reply after 1 second
+    setTimeout(() => {
+        messages.push({
+            user: currentUser,
+            text: "Got your message!",
+            me: false
+        });
+        loadMessages();
+    }, 1000);
+}
+</script>
+
+</body>
+</html>
